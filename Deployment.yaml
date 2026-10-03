@@ -1,0 +1,57 @@
+[23-09-2026 13:31] Dr K SRINIVAS: apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: springboot-k8s-demo
+
+  namespace: jenkins
+
+
+spec:
+
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: springboot-k8s-demo
+
+  template:
+
+    metadata:
+      labels:
+        app: springboot-k8s-demo
+
+    spec:
+
+      containers:
+
+        - name: springboot-k8s-demo
+
+          image: myspring:1.0
+
+          imagePullPolicy: IfNotPresent
+
+          ports:
+
+            - containerPort: 8080
+[23-09-2026 13:34] Dr K SRINIVAS: apiVersion: v1
+
+kind: Service
+
+metadata:
+  name: springboot-service
+  namespace: springboot
+
+spec:
+
+  type: NodePort
+
+  selector:
+    app: springboot-k8s-demo
+
+  ports:
+
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
